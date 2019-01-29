@@ -1,0 +1,1 @@
+docker run --name mysql -p 0.0.0.0:3306:3306 -e MYSQL_ALLOW_EMPTY_PASSWORD=true -e MYSQL_ROOT_HOST=% -e MYSQL_DATABASE=book -d mysql:latest
