@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 //import hu.wortex.report.helpers.DateDeserializer;
 import lombok.Data;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.util.Date;
@@ -19,6 +20,7 @@ import java.util.TimeZone;
 public class Listing {
 
     @Id
+    @Column(unique=true)
     private String id;
 
     private String title;
