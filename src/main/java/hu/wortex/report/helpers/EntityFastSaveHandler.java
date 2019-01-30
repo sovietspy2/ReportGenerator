@@ -2,6 +2,9 @@ package hu.wortex.report.helpers;
 
 import hu.wortex.report.entities.*;
 import hu.wortex.report.repositories.ListingRepository;
+import hu.wortex.report.repositories.ListingStatusRepository;
+import hu.wortex.report.repositories.LocationRepository;
+import hu.wortex.report.repositories.MarketplaceRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,11 +27,26 @@ public class EntityFastSaveHandler {
     @Autowired
     private ListingRepository listingRepository;
 
+    @Autowired
+    private ListingStatusRepository listingStatusRepository;
+
+    @Autowired
+    private LocationRepository locationRepository;
+
+    @Autowired
+    private MarketplaceRepository marketplaceRepository;
+
     @Transactional
     public void handleSave(List<ListingDTO> dtos) {
 
-        listingRepository.saveAll(dtos.stream().map(
-                dto-> {
+
+        /// get lists here
+
+        ValidationUtility validationUtility = new ValidationUtility(null, null, null);
+
+        listingRepository.saveAll(dtos.stream()
+                .filter(validationUtility::isValidListing)
+                .map(dto-> {
                     Marketplace marketplace = entityManager.getReference(Marketplace.class, dto.getMarketPlaceId());
                     Location location = entityManager.getReference(Location.class, dto.getLocationId());
                     ListingStatus listingStatus = entityManager.getReference(ListingStatus.class, dto.getListingStatusId());
@@ -51,11 +69,9 @@ public class EntityFastSaveHandler {
                     log.info(listing.getId());
                     entityManager.persist(listing);
                     return listing;
-
-
                 }
         ).collect(Collectors.toList()));
-        log.info("save done");
+        log.info("saving service done");
     }
 
 

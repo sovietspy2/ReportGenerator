@@ -36,32 +36,26 @@ public class Listing {
     //@JsonProperty("location_id")
     //private transient String locationId;
 
-    @JsonProperty("listing_price")
-    private Integer listingPrice;
+    private Long listingPrice;
 
     private String currency;
 
     private Integer quantity;
 
     @ManyToOne
-    @JsonProperty("listing_status")
     @NotFound(action = NotFoundAction.IGNORE)
     @JoinColumn(name="listing_status", referencedColumnName="id", nullable=false)
     private ListingStatus listingStatus;
 
 
     @ManyToOne(fetch=FetchType.LAZY)
-    @JsonProperty("marketplace")
     @NotFound(action = NotFoundAction.IGNORE)
     @JoinColumn(name="marketplace", referencedColumnName="id", nullable=false)
     private Marketplace marketPlace;
 
-    @JsonFormat(pattern = "MM/dd/yyyy")
-    //@JsonDeserialize(using= DateDeserializer.class)
-    @JsonProperty("upload_time")
+
     private Date uploadTime;
 
-    @JsonProperty("owner_email_address")
     private String ownerEmailAddress;
 
 }

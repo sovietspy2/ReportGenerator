@@ -25,7 +25,7 @@ public class ListingDTO {
     private String locationId;
 
     @JsonProperty("listing_price")
-    private Integer listingPrice;
+    private Long listingPrice;
 
     @JsonProperty("currency")
     private String currency;

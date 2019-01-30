@@ -4,6 +4,8 @@ import hu.wortex.report.entities.ListingStatus;
 import hu.wortex.report.entities.Location;
 import hu.wortex.report.repositories.ListingRepository;
 import hu.wortex.report.repositories.LocationRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.ParameterizedTypeReference;
@@ -25,11 +27,14 @@ public class LocationLoader implements CommandLineRunner {
     @Autowired
     private RestTemplate restTemplate;
 
+    private static final Logger log = LoggerFactory.getLogger(LocationLoader.class);
 
     @Override
     public void run(String... args) throws Exception {
 
         locationRepository.deleteAll();
+
+        log.info("deleted all records from LOCATION table");
 
         ResponseEntity<List<Location>> response  =
                 restTemplate.exchange("https://my.api.mockaroo.com/location?key=63304c70",
@@ -37,6 +42,10 @@ public class LocationLoader implements CommandLineRunner {
                         });
         List<Location> location = response.getBody();
 
+        log.info("Fetched data from apiurl");
+
         locationRepository.saveAll(location);
+
+        log.info("saving recors to LOCATION table is done");
     }
 }
