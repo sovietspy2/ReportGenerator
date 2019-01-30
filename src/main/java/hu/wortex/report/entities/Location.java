@@ -7,21 +7,26 @@ import lombok.Data;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
+import java.io.Serializable;
 
 @Data
 @Entity
 @JsonIgnoreProperties(ignoreUnknown = true)
+@Table(name="location")
 public class Location {
 
     @Id
-    @Column(unique=true)
+    @Column(name="id", unique=true)
     private String id;
 
     @JsonProperty("manager_name")
+    @Column(name = "manager_name")
     private String managerName;
 
     private String phone;
 
+    @Column(name = "address_primary")
     @JsonProperty("address_primary")
     private String addressPrimary;
 
