@@ -31,4 +31,5 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     compile group: 'commons-validator', name: 'commons-validator', version: '1.4.0'
+    compile 'org.apache.commons:commons-csv:1.6'
 }
