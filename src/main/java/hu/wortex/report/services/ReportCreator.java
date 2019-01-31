@@ -58,10 +58,20 @@ public class ReportCreator {
         //String bestListerEmailAddress = listingRepository.findBestOwnerEmailAddress();
         mainReportDTO.setBestListerEmailAddress(listingRepository.findBestOwnerEmailAddress());
 
-        //String monthStr = month < 10 ? "0"+month : String.valueOf(month);
-        List<MonthlyReportDTO> asd = Stream.of(Month.values()).map(element -> {
+
+        List<MonthlyReportDTO> asd = Stream.of(Month.values()).map(month -> {
                 MonthlyReportDTO monthlyReportDTO = new MonthlyReportDTO();
-                monthlyReportDTO.setMonth(element.toString());
+
+                monthlyReportDTO.setTotalAmazonListingCount(listingRepository.countAllByMarketPlaceAndUploadTimeMonth(amazon.getId(),month.getValue()));
+                monthlyReportDTO.setTotalEbayListingCount(listingRepository.countAllByMarketPlaceAndUploadTimeMonth(ebay.getId(),month.getValue()));
+                monthlyReportDTO.setBestListerEmailAddress(listingRepository.findBestOwnerEmailAddressByMonth(month.getValue()));
+                monthlyReportDTO.setAverageAmazonListingPrice(listingRepository.findAverageCountNumberByMarketPlaceByMonth(amazon.getId(), month.getValue()));
+                monthlyReportDTO.setAverageEbayListingPrice(listingRepository.findAverageCountNumberByMarketPlaceByMonth(ebay.getId(), month.getValue()));
+                monthlyReportDTO.setTotalEbayListingPrice(listingRepository.findListingPriceSumByMarketplaceByMonth(ebay.getId(), month.getValue()));
+                monthlyReportDTO.setTotalAmazonListingPrice(listingRepository.findListingPriceSumByMarketplaceByMonth(amazon.getId(), month.getValue()));
+
+
+                monthlyReportDTO.setMonth(month.toString());
                 return monthlyReportDTO;
         }).collect(Collectors.toList());
 
