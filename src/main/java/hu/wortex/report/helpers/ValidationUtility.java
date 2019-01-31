@@ -38,22 +38,22 @@ public class ValidationUtility {
         } else if (listing.getDescription() == null) {
             appendCsvLines(listing.getId(), listing.getMarketPlaceId(), Field.DESCRIPTION);
             return false;
-        } else if (listing.getLocationId() == null || !locationIds.contains(listing.getLocationId())) { // meg kell nezni a DB-ben
+        } else if (listing.getLocationId() == null || !locationIds.contains(listing.getLocationId())) {
             appendCsvLines(listing.getId(), listing.getMarketPlaceId(), Field.LOCATION_ID);
             return false;
-        } else if (listing.getListingPrice() == null || listing.getListingPrice() < 0 || !precisionCheck(listing.getListingPrice())) {// 2 tizedesjegy
+        } else if (listing.getListingPrice() == null || listing.getListingPrice() < 0 || !precisionCheck(listing.getListingPrice())) {
             appendCsvLines(listing.getId(), listing.getMarketPlaceId(), Field.LISTING_PRICE);
             return false;
-        } else if (listing.getCurrency() == null || listing.getCurrency().length() != 3) {// vagy nem pontosan 3 karakter //
+        } else if (listing.getCurrency() == null || listing.getCurrency().length() != 3) {
             appendCsvLines(listing.getId(), listing.getMarketPlaceId(), Field.CURRENCY);
             return false;
         } else if (listing.getQuantity() == null || listing.getQuantity() < 0) {
             appendCsvLines(listing.getId(), listing.getMarketPlaceId(), Field.QUANTITY);
             return false;
-        } else if (listing.getListingStatusId() == null || !listingStatusIds.contains(listing.getListingStatusId())) { // meg kell nezni db
+        } else if (listing.getListingStatusId() == null || !listingStatusIds.contains(listing.getListingStatusId())) {
             appendCsvLines(listing.getId(), listing.getMarketPlaceId(), Field.LISTING_STATUS);
             return false;
-        } else if (listing.getMarketPlaceId() == null || !marketplaceIds.contains(listing.getMarketPlaceId())) { // meg kell nezni db
+        } else if (listing.getMarketPlaceId() == null || !marketplaceIds.contains(listing.getMarketPlaceId())) {
             appendCsvLines(listing.getId(), listing.getMarketPlaceId(), Field.MARKETPLACE);
             return false;
         } else if (listing.getOwnerEmailAddress() == null || !isValidEmail(listing.getOwnerEmailAddress())) {
