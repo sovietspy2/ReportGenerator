@@ -1,22 +1,38 @@
 package hu.wortex.report.services;
 
-import hu.wortex.report.entities.Listing;
-import hu.wortex.report.repositories.ListingRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import hu.wortex.report.entities.MainReportDTO;
+import hu.wortex.report.entities.MonthlyReportDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
-import javax.xml.validation.ValidatorHandler;
-import java.util.List;
+import java.io.File;
+import java.io.IOException;
 
 @Component
-@Order(5)
+@Order(1)
 public class ReportMaker implements CommandLineRunner  {
+
+    @Autowired
+    private ReportCreator reportCreator;
+
     @Override
     public void run(String... args) throws Exception {
 
+        MainReportDTO mainReportDTO = reportCreator.getReport();
+
+        ObjectMapper mapper = new ObjectMapper();
+
+        try {
+
+            mapper.writeValue(new File("/csv/test.json"), mainReportDTO );
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        System.exit(1);
     }
 }
