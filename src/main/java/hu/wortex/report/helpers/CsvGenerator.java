@@ -1,8 +1,9 @@
 package hu.wortex.report.helpers;
 
-import lombok.NoArgsConstructor;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -21,6 +22,8 @@ public class CsvGenerator {
     }
 
     private static final String[] HEADERS = {"ListingId","MarketplaceName","InvalidField"};
+
+    private static final Logger log = LoggerFactory.getLogger(CsvGenerator.class);
 
     public String generateCsv(List<List<String>> data) throws IOException {
 
@@ -41,6 +44,8 @@ public class CsvGenerator {
                 }
             });
         }
+
+        log.info("created csv file: "+fileName);
 
         return fileName;
     }

@@ -13,7 +13,6 @@ public enum Field {
         QUANTITY ("quantity"),
         TITLE ("title");
 
-
         private final String name;
 
         Field(String field) {
@@ -24,8 +23,4 @@ public enum Field {
             return this.name;
         }
 
-//    @Override
-//    public String toString() {
-//        return this.name;
-//    }
 }
