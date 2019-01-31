@@ -1,5 +1,6 @@
 package hu.wortex.report.helpers;
 
+import hu.wortex.report.entities.Field;
 import hu.wortex.report.entities.ListingDTO;
 import org.apache.commons.validator.routines.EmailValidator;
 
