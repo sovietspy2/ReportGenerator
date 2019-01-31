@@ -6,7 +6,6 @@ import hu.wortex.report.entities.MonthlyReportDTO;
 import hu.wortex.report.repositories.ListingRepository;
 import hu.wortex.report.repositories.MarketplaceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
 import java.time.Month;
@@ -18,9 +17,6 @@ import java.util.stream.Stream;
 public class ReportCreator {
 
     @Autowired
-    private Environment env;
-
-    @Autowired
     private ListingRepository listingRepository;
 
     @Autowired
@@ -30,11 +26,8 @@ public class ReportCreator {
 
         MainReportDTO mainReportDTO = new MainReportDTO();
 
-
-
         Marketplace amazon = marketplaceRepository.findByMarketplaceName("AMAZON");
         Marketplace ebay = marketplaceRepository.findByMarketplaceName("EBAY");
-
 
         //Integer totalEbayListingCount =  listingRepository.countAllByMarketPlace(ebay);
         mainReportDTO.setTotalEbayListingCount(listingRepository.countAllByMarketPlace(ebay));
@@ -45,7 +38,6 @@ public class ReportCreator {
         mainReportDTO.setTotalAmazonListingPrice(listingRepository.findListingPriceSumByMarketplace(amazon.getId()));
         //Double totalEbayListingPrice = listingRepository.findListingPriceSumByMarketplace(ebay.getId());
         mainReportDTO.setTotalEbayListingPrice(listingRepository.findListingPriceSumByMarketplace(ebay.getId()));
-
 
         //Double averageAmazonListingPrice = listingRepository.findAverageCountNumberByMarketPlace(amazon.getId());
         mainReportDTO.setAverageAmazonListingPrice(listingRepository.findAverageCountNumberByMarketPlace(amazon.getId()));
