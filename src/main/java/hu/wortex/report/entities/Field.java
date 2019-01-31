@@ -1,4 +1,4 @@
-package hu.wortex.report.helpers;
+package hu.wortex.report.entities;
 
 public enum Field {
         MARKETPLACE ("marketplace"),
