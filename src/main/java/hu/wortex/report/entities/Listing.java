@@ -29,9 +29,6 @@ public class Listing {
     @JoinColumn(name="location_id", referencedColumnName="id", nullable=false)
     private Location location;
 
-    //@JsonProperty("location_id")
-    //private transient String locationId;
-
     @Column(precision=2)
     private Double listingPrice;
 
@@ -44,12 +41,10 @@ public class Listing {
     @JoinColumn(name="listing_status", referencedColumnName="id", nullable=false)
     private ListingStatus listingStatus;
 
-
     @ManyToOne(fetch=FetchType.LAZY)
     @NotFound(action = NotFoundAction.IGNORE)
     @JoinColumn(name="marketplace", referencedColumnName="id", nullable=false)
     private Marketplace marketPlace;
-
 
     private Date uploadTime;
 

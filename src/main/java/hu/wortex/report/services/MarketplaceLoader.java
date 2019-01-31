@@ -26,8 +26,6 @@ public class MarketplaceLoader implements CommandLineRunner {
     @Autowired
     private RestTemplate restTemplate;
 
-
-
     @Autowired
     private Environment env;
 

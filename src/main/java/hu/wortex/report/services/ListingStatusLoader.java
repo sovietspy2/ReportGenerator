@@ -19,7 +19,7 @@ import org.springframework.web.client.RestTemplate;
 import java.util.List;
 
 @Component
-@Order(12)
+@Order(1)
 public class ListingStatusLoader implements CommandLineRunner {
 
 

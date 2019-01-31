@@ -23,8 +23,6 @@ import java.util.stream.StreamSupport;
 @Service
 public class ListingMapper {
 
-    private static final Logger log = LoggerFactory.getLogger(ListingMapper.class);
-
     @Autowired
     private EntityManager entityManager;
 
@@ -43,6 +41,8 @@ public class ListingMapper {
     @Autowired
     private Environment env;
 
+    private static final Logger log = LoggerFactory.getLogger(ListingMapper.class);
+
     /**
      * saves valid Listings to the database
      * @param dtos
@@ -59,7 +59,6 @@ public class ListingMapper {
         log.info("listing status id list for validation received");
 
         Map<Integer,String> marketplacesMap = createIdNameMarketplaceMap();
-
 
         ValidationUtility validationUtility = new ValidationUtility(locationIds, marketplaceIds, listingStatusIds,marketplacesMap);
 
@@ -86,7 +85,7 @@ public class ListingMapper {
                     listing.setMarketPlace(marketplace);
 
                     listing.setLocation(location);
-                    log.info(listing.getId());
+                    log.debug(listing.getId());
                     entityManager.persist(listing);
                     return listing;
                 }

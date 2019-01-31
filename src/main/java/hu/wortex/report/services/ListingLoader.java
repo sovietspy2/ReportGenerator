@@ -33,10 +33,8 @@ public class ListingLoader implements CommandLineRunner {
 
     private static final Logger log = LoggerFactory.getLogger(ListingLoader.class);
 
-
     @Autowired
     private Environment env;
-
 
     @Override
     public void run(String... args) throws Exception {
@@ -53,11 +51,9 @@ public class ListingLoader implements CommandLineRunner {
                         });
         List<ListingDTO> listings = listingResponse.getBody();
 
-        log.info("saving listings started start ---");
+        log.info("saving listings started start");
         listingMapper.handleSave(listings);
-        log.info("saving listings done ---");
-
-        System.exit(1);
+        log.info("saving listings done");
 
     }
 }
