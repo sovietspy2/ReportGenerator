@@ -1,18 +1,14 @@
 package hu.wortex.report.entities;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-//import hu.wortex.report.helpers.DateDeserializer;
 import lombok.Data;
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.Locale;
-import java.util.TimeZone;
+
+//import hu.wortex.report.helpers.DateDeserializer;
 
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -36,7 +32,8 @@ public class Listing {
     //@JsonProperty("location_id")
     //private transient String locationId;
 
-    private Long listingPrice;
+    @Column(precision=2)
+    private Double listingPrice;
 
     private String currency;
 

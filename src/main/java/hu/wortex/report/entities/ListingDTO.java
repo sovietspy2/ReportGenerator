@@ -6,7 +6,6 @@ import lombok.Data;
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
 
-
 import java.util.Date;
 
 @Data
@@ -25,7 +24,7 @@ public class ListingDTO {
     private String locationId;
 
     @JsonProperty("listing_price")
-    private Long listingPrice;
+    private Double listingPrice;
 
     @JsonProperty("currency")
     private String currency;
