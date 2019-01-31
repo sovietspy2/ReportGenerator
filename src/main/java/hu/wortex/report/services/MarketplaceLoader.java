@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.core.annotation.Order;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -25,6 +26,11 @@ public class MarketplaceLoader implements CommandLineRunner {
     @Autowired
     private RestTemplate restTemplate;
 
+
+
+    @Autowired
+    private Environment env;
+
     private static final Logger log = LoggerFactory.getLogger(MarketplaceLoader.class);
 
     @Override
@@ -36,7 +42,7 @@ public class MarketplaceLoader implements CommandLineRunner {
 
 
         ResponseEntity<List<Marketplace>> response  =
-                restTemplate.exchange("https://my.api.mockaroo.com/marketplace?key=63304c70",
+                restTemplate.exchange(env.getProperty("marketplace.url"),
                         HttpMethod.GET, null, new ParameterizedTypeReference<List<Marketplace>>() {
                         });
         List<Marketplace> marketplaces = response.getBody();
