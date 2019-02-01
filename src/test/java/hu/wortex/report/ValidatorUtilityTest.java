@@ -4,6 +4,7 @@ import hu.wortex.report.entities.ListingDTO;
 import hu.wortex.report.helpers.ValidationUtility;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -13,11 +14,11 @@ import java.util.*;
 @RunWith(SpringRunner.class)
 public class ValidatorUtilityTest {
 
-    ValidationUtility validationUtility = null;
-    ListingDTO listingDTO = null;
+    private static ValidationUtility validationUtility = null;
+    private ListingDTO listingDTO = null;
 
-    @Before
-    public void beforeFunction(){
+    @BeforeClass
+    public static void setUpValidationUtility() {
         List<String> locationIds = Arrays.asList("test1", "test2", "test3");
         List<Integer> marketplaceIds = Arrays.asList(1,2,3);
         List<Integer> listingStatusIds = Arrays.asList(1,2,3);
@@ -28,6 +29,11 @@ public class ValidatorUtilityTest {
         map.put(3, "m3");
 
         validationUtility = new ValidationUtility(locationIds, marketplaceIds, listingStatusIds,map);
+    }
+
+
+    @Before
+    public void beforeFunction(){
 
         listingDTO = new ListingDTO();
 
