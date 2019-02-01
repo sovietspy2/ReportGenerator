@@ -1,6 +1,9 @@
 package hu.wortex.report;
 
 import hu.wortex.report.helpers.CsvGenerator;
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVParser;
+import org.apache.commons.csv.CSVRecord;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -9,16 +12,22 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.Reader;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RunWith(SpringRunner.class)
 public class CsvGeneratorTest {
 
+    private static final String TEST_FILE_PATH = "./";
+
     @Test
-    public void csvTest() throws IOException {
-        CsvGenerator csv = new CsvGenerator("/csv/");
+    public void csvContentAndExistenceTest() throws IOException {
+        CsvGenerator csv = new CsvGenerator(TEST_FILE_PATH);
         List<List<String>> data = new ArrayList<>();
 
         data.add(Arrays.asList("testid", "ebay", "fieldname"));
@@ -28,11 +37,23 @@ public class CsvGeneratorTest {
 
         File file = new File(fileName);
         Assert.assertTrue(file.exists());
+
+        try (
+                Reader reader = Files.newBufferedReader(Paths.get(TEST_FILE_PATH+fileName));
+                CSVParser csvParser = new CSVParser(reader, CSVFormat.DEFAULT);
+        ) {
+            CSVRecord secondRow = new ArrayList<>(csvParser.getRecords()).get(2);
+            Assert.assertTrue(secondRow.get(1).equals("amazon"));
+
+        }
+
+        file.delete();
     }
+
 
     @Test
     public void csvTestMissingMarketplaceName() throws IOException {
-        CsvGenerator csv = new CsvGenerator("/csv/");
+        CsvGenerator csv = new CsvGenerator(TEST_FILE_PATH);
         List<List<String>> data = new ArrayList<>();
 
         data.add(Arrays.asList("testid", null, "fieldname"));
@@ -42,6 +63,17 @@ public class CsvGeneratorTest {
 
         File file = new File(fileName);
         Assert.assertTrue(file.exists());
+
+        try (
+                Reader reader = Files.newBufferedReader(Paths.get(TEST_FILE_PATH+fileName));
+                CSVParser csvParser = new CSVParser(reader, CSVFormat.DEFAULT);
+        ) {
+            CSVRecord secondRow = new ArrayList<>(csvParser.getRecords()).get(2);
+            Assert.assertTrue(secondRow.get(1).equals("amazon"));
+
+        }
+
+        file.delete();
     }
 
 }
