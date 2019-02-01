@@ -6,17 +6,17 @@ config.properties:
 ```
 spring.jpa.hibernate.ddl-auto=none
 spring.datasource.url=jdbc:mysql://localhost:3306/book?useSSL=false
-spring.datasource.username=root
-spring.datasource.password=
+spring.datasource.username=user
+spring.datasource.password=passs
 listing.status.url=https://my.api.mockaroo.com/listingStatus?key=63304c70
 listing.url=https://my.api.mockaroo.com/listing?key=63304c70
 location.url=https://my.api.mockaroo.com/location?key=63304c70
 marketplace.url=https://my.api.mockaroo.com/marketplace?key=63304c70
 csv.file.location=/csv/
 tmp.file.path=/csv/report.json
-ftp.username=
-ftp.password=
-ftp.host=ftp.atw.hu
+ftp.username=ftpuser
+ftp.password=ftpass
+ftp.host=ftp.server.com
 ftp.port=21
 ```
 

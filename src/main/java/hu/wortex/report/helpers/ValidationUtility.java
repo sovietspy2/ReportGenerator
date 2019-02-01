@@ -29,7 +29,7 @@ public class ValidationUtility {
      */
     public boolean isValidListing(ListingDTO listing) {
 
-        if (!listing.getId().matches(REGEX_PATTERN)) {
+        if (listing.getId() == null || !listing.getId().matches(REGEX_PATTERN)) {
             appendCsvLines(listing.getId(), listing.getMarketPlaceId(), Field.ID);
             return false;
         } else if (listing.getTitle() == null) {
