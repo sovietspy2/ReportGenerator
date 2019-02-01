@@ -1,7 +1,21 @@
 # ReportGenerator
 
-the application uses external properties.
+##### Used technologies:
+- Gradle
+- Java 8
+- MsSQL 8
+- JPA
+- JUnit
+- Spring Boot 2
 
+### How the app works:
+- Downloading data
+- Parsing JSON response to Entities
+- Validating entities, valids are going to be saved and invalids are listed in error csv
+- Generating report POJO map to JSON save to disk
+- Upload report JSON file to FTP server
+
+the application uses external properties.
 vm options: `-Dspring.config.location="/config/config.properties" -Dlogging.config="/config/log4j2.xml"`
 
 config.properties:
@@ -20,6 +34,7 @@ ftpUsername=
 ftpPassword=
 ftpHost=
 ftpPort=
+reportName=report.json
 ```
 
 log4j2.xml
@@ -62,43 +77,52 @@ log4j2.xml
 
 SQL scripts:
 ```$xslt
-create table listing_status (
-	  id integer not null PRIMARY KEY ,
-	  status_name varchar(255) NOT NULL
- 	);
+create table listing_status
+(
+  id          integer   not null PRIMARY KEY,
+  status_name text(255) NOT NULL
+);
 
- 	create table location (
- 	  id varchar(255) not null PRIMARY KEY,
- 	  manager_name varchar(255),
- 	  phone varchar(50),
- 	  address_primary varchar(100),
- 	  address_secondary varchar(100),
- 	  country varchar(50),
- 	  town varchar(50),
- 	  postal_code varchar(20)
-	);
+create table location
+(
+  id                varchar(36) not null PRIMARY KEY,
+  manager_name      text(200),
+  phone             text(50),
+  address_primary   text(100),
+  address_secondary text(100),
+  country           text(50),
+  town              text(50),
+  postal_code       text(20)
+);
 
-	create table marketplace (
-	  id integer not null PRIMARY KEY,
-	  marketplace_name varchar(255) not null
-	);
+create table marketplace
+(
+  id               integer  not null PRIMARY KEY,
+  marketplace_name text(30) not null
+);
 
-	create table listing (
-	id varchar(36) not null PRIMARY KEY,
-	currency varchar(3) not null,
-	description varchar(255) not null,
-	listing_price DOUBLE,
-	listing_status Integer NOT NULL,
-	location_id varchar(255) not null,
-	marketplace integer not null,
-	title varchar(255) not null,
-	owner_email_address varchar(255),
-	quantity integer not null,
-	upload_time datetime,
-	FOREIGN KEY (listing_status) REFERENCES listing_status(id),
-  FOREIGN KEY (location_id) REFERENCES location(id),
-  FOREIGN KEY (marketplace) REFERENCES marketplace(id)
-  );
+create table listing
+(
+  id                  varchar(36) not null PRIMARY KEY,
+  currency            text(3)     not null,
+  description         text(255)   not null,
+  listing_price       DOUBLE,
+  listing_status      Integer     NOT NULL,
+  location_id         varchar(36) not null,
+  marketplace         integer     not null,
+  title               text(255)   not null,
+  owner_email_address text(255),
+  quantity            integer     not null,
+  upload_time         datetime,
+  FOREIGN KEY (listing_status) REFERENCES listing_status (id),
+  FOREIGN KEY (location_id) REFERENCES location (id),
+  FOREIGN KEY (marketplace) REFERENCES marketplace (id)
+);
+
+
 ```
 
 
+#### possible erros and solutions
+- After running the app once the API will probably give the same ID-s again so the DB should be wiped
+- Sometimes the API gives duplicate marketplace names and that might cause SQL exception, delete the DB and run the app again for valid data
