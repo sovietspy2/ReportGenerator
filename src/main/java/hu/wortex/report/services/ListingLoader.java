@@ -1,7 +1,6 @@
 package hu.wortex.report.services;
 
 import hu.wortex.report.entities.ListingDTO;
-import hu.wortex.report.helpers.ListingMapper;
 import hu.wortex.report.repositories.ListingRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,7 +14,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.Arrays;
 import java.util.List;
 
 @Component
@@ -29,7 +27,7 @@ public class ListingLoader implements CommandLineRunner {
     private RestTemplate restTemplate;
 
     @Autowired
-    private ListingMapper listingMapper;
+    private MapperService mapperService;
 
     private static final Logger log = LoggerFactory.getLogger(ListingLoader.class);
 
@@ -52,7 +50,7 @@ public class ListingLoader implements CommandLineRunner {
         List<ListingDTO> listings = listingResponse.getBody();
 
         log.info("saving listings started start");
-        listingMapper.handleSave(listings);
+        mapperService.handleSave(listings);
         log.info("saving listings done");
 
     }

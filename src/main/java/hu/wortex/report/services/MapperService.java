@@ -1,6 +1,8 @@
-package hu.wortex.report.helpers;
+package hu.wortex.report.services;
 
 import hu.wortex.report.entities.*;
+import hu.wortex.report.helpers.CsvGenerator;
+import hu.wortex.report.helpers.ValidationUtility;
 import hu.wortex.report.repositories.ListingRepository;
 import hu.wortex.report.repositories.ListingStatusRepository;
 import hu.wortex.report.repositories.LocationRepository;
@@ -21,7 +23,7 @@ import java.util.stream.StreamSupport;
 
 
 @Service
-public class ListingMapper {
+public class MapperService {
 
     @Autowired
     private EntityManager entityManager;
@@ -41,7 +43,7 @@ public class ListingMapper {
     @Autowired
     private Environment env;
 
-    private static final Logger log = LoggerFactory.getLogger(ListingMapper.class);
+    private static final Logger log = LoggerFactory.getLogger(MapperService.class);
 
     /**
      * saves valid Listings to the database
