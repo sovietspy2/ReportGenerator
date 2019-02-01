@@ -1,9 +1,7 @@
 package hu.wortex.report.services;
 
 import hu.wortex.report.config.Config;
-import hu.wortex.report.entities.ListingStatus;
 import hu.wortex.report.entities.Location;
-import hu.wortex.report.repositories.ListingRepository;
 import hu.wortex.report.repositories.LocationRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.core.annotation.Order;
-import org.springframework.core.env.Environment;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -37,11 +34,9 @@ public class LocationLoader implements CommandLineRunner {
     @Override
     public void run(String... args) {
 
-        locationRepository.deleteAll();
+        log.info("Location loader begin");
 
-        log.info("deleted all records from LOCATION table");
-
-        ResponseEntity<List<Location>> response  =
+        ResponseEntity<List<Location>> response =
                 restTemplate.exchange(config.getLocationApiUrl(),
                         HttpMethod.GET, null, new ParameterizedTypeReference<List<Location>>() {
                         });

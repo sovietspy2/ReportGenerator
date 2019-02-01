@@ -18,4 +18,6 @@ public class Config {
     String ftpPassword;
     String ftpHost;
     String ftpPort;
+    String reportName;
+    String importFileName;
 }

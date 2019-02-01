@@ -12,10 +12,10 @@ import javax.persistence.Table;
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Entity
-@Table(name="marketplace")
+@Table(name = "marketplace")
 public class Marketplace {
     @Id
-    @Column(unique=true)
+    @Column(unique = true)
     private Integer id;
 
     @JsonProperty("marketplace_name")

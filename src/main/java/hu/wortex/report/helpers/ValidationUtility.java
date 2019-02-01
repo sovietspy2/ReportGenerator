@@ -17,13 +17,14 @@ public class ValidationUtility {
     private List<Integer> marketplaceIds;
     private List<Integer> listingStatusIds;
 
-    private Map<Integer,String> marketplaces;
+    private Map<Integer, String> marketplaces;
 
     private List<List<String>> csvLines;
 
     /**
      * validates a JSON parsed DTO
      * collects lines with errors
+     *
      * @param listing a listing dto that is about to be saved
      * @return valid or not
      */
@@ -64,7 +65,8 @@ public class ValidationUtility {
     }
 
     /**
-     *  trims and validates an email address
+     * trims and validates an email address
+     *
      * @param email
      * @return is valid or not
      */
@@ -77,7 +79,7 @@ public class ValidationUtility {
     public ValidationUtility(List<String> locationIds,
                              List<Integer> marketplaceIds,
                              List<Integer> listingStatusIds,
-                             Map<Integer,String> marketplaces) {
+                             Map<Integer, String> marketplaces) {
 
         this.locationIds = locationIds;
         this.listingStatusIds = listingStatusIds;
@@ -92,33 +94,35 @@ public class ValidationUtility {
 
     /**
      * We want to decide wheter its precision is less then 2 or not
+     *
      * @param d
      * @return is valid or not
      */
     private boolean precisionCheck(Double d) {
-        if (d!=null) {
+        if (d != null) {
             String text = Double.toString(Math.abs(d));
             int integerPlaces = text.indexOf('.');
             int decimalPlaces = text.length() - integerPlaces - 1;
-            return decimalPlaces<=2;
+            return decimalPlaces <= 2;
         }
         return false;
     }
 
     /**
-     *  adds a List<String> that represents a row in the CSV
-     * @param id Listingid
+     * adds a List<String> that represents a row in the CSV
+     *
+     * @param id            Listingid
      * @param marketplaceId
-     * @param field field name with error
+     * @param field         field name with error
      */
     private void appendCsvLines(String id, Integer marketplaceId, Field field) {
         String marketplaceName = marketplaces.get(marketplaceId);
         csvLines.add(Arrays.asList(id, marketplaceName, field.getFieldName()));
     }
 
-    //
+    // I think this is more reasonable
     private void appendCsvLinesWithFieldValue(String id, Integer marketplaceId, Field field, String value) {
         String marketplaceName = marketplaces.get(marketplaceId);
-        csvLines.add(Arrays.asList(id, marketplaceName, field.getFieldName(),value));
+        csvLines.add(Arrays.asList(id, marketplaceName, field.getFieldName(), value));
     }
 }

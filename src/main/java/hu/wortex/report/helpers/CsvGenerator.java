@@ -5,7 +5,6 @@ import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.FileWriter;
@@ -17,11 +16,13 @@ import java.util.List;
 @Component
 public class CsvGenerator {
 
-    @Autowired
     private Config config;
 
-    private static final String FILE_NAME = "importLog.csv";
-    private static final String[] HEADERS = {"ListingId","MarketplaceName","InvalidField"};
+    public CsvGenerator(Config config) {
+        this.config = config;
+    }
+
+    private static final String[] HEADERS = {"ListingId", "MarketplaceName", "InvalidField"};
 
     private static final Logger log = LoggerFactory.getLogger(CsvGenerator.class);
 
@@ -33,7 +34,7 @@ public class CsvGenerator {
 
         String currentTime = fileFormatter.format(new Date(System.currentTimeMillis()));
 
-        String fileName = csvSaveLocation+currentTime+FILE_NAME;
+        String fileName = csvSaveLocation + currentTime + config.getImportFileName();
 
         FileWriter out = new FileWriter(fileName);
 
@@ -47,7 +48,7 @@ public class CsvGenerator {
             });
         }
 
-        log.info("created csv file: "+fileName);
+        log.info("created csv file: " + fileName);
 
         return fileName;
     }

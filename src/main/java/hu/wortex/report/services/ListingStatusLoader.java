@@ -1,17 +1,14 @@
 package hu.wortex.report.services;
 
 import hu.wortex.report.config.Config;
-import hu.wortex.report.entities.Listing;
 import hu.wortex.report.entities.ListingStatus;
 import hu.wortex.report.repositories.ListingStatusRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.boot.origin.SystemEnvironmentOrigin;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.core.annotation.Order;
-import org.springframework.core.env.Environment;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -37,12 +34,10 @@ public class ListingStatusLoader implements CommandLineRunner {
     @Override
     public void run(String... args) {
 
-        listingStatusRepository.deleteAll();
-
-        log.info("deleted all records from LISTING_STATUS table");
+        log.info("ListingStatus loader begin");
 
         ResponseEntity<List<ListingStatus>> response =
-                    restTemplate.exchange(config.getListingStatusApiUrl(),
+                restTemplate.exchange(config.getListingStatusApiUrl(),
                         HttpMethod.GET, null, new ParameterizedTypeReference<List<ListingStatus>>() {
                         });
         List<ListingStatus> status = response.getBody();

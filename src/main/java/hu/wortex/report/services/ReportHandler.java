@@ -9,8 +9,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
-import org.springframework.core.env.Environment;
-import org.springframework.jca.cci.connection.ConnectionFactoryUtils;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
@@ -18,7 +16,7 @@ import java.io.IOException;
 
 @Component
 @Order(5)
-public class ReportHandler implements CommandLineRunner  {
+public class ReportHandler implements CommandLineRunner {
 
     @Autowired
     private ReportCreator reportCreator;
@@ -41,7 +39,7 @@ public class ReportHandler implements CommandLineRunner  {
         ObjectMapper mapper = new ObjectMapper();
 
         try {
-            mapper.writeValue(new File(config.getTmpFilePath()), mainReportDTO );
+            mapper.writeValue(new File(config.getTmpFilePath()), mainReportDTO);
             log.info(" temp report.json saved to drive");
         } catch (IOException e) {
             log.error("Failed to map Object to JSON", e.getMessage(), e);

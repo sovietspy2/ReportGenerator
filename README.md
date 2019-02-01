@@ -35,6 +35,7 @@ ftpPassword=
 ftpHost=
 ftpPort=
 reportName=report.json
+importFileName=importLog.csv
 ```
 
 log4j2.xml

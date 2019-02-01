@@ -8,7 +8,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
 @Component
 public class FtpUploader {
@@ -18,9 +21,7 @@ public class FtpUploader {
 
     private FTPClient client = new FTPClient();
 
-    private static final String REMOTE_FILE_NAME = "report.json";
     private static final Logger log = LoggerFactory.getLogger(FtpUploader.class);
-
 
     public void upload() {
 
@@ -29,6 +30,7 @@ public class FtpUploader {
         String host = config.getFtpHost();
         String path = config.getTmpFilePath();
         Integer port = Integer.valueOf(config.getFtpPort());
+        String remoteFile = config.getReportName();
 
         try {
 
@@ -38,15 +40,11 @@ public class FtpUploader {
 
             client.setFileType(FTP.BINARY_FILE_TYPE);
 
-            File firstLocalFile = new File(path);
+            File localFile = new File(path);
 
-            String firstRemoteFile = REMOTE_FILE_NAME;
-            try (InputStream inputStream = new FileInputStream(firstLocalFile)) {
-                boolean done = client.storeFile(firstRemoteFile, inputStream);
+            try (InputStream inputStream = new FileInputStream(localFile)) {
+                client.storeFile(remoteFile, inputStream);
                 log.info("started uploading file");
-                if (done) {
-                    log.info("finished uploading file");
-                }
             }
 
         } catch (IOException ex) {

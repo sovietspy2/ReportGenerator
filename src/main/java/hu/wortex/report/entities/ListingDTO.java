@@ -42,7 +42,6 @@ public class ListingDTO {
     private Integer marketPlaceId;
 
     @JsonFormat(pattern = "MM/dd/yyyy")
-    //@JsonDeserialize(using= DateDeserializer.class)
     @JsonProperty("upload_time")
     private Date uploadTime;
 

@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.core.annotation.Order;
-import org.springframework.core.env.Environment;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -40,17 +39,13 @@ public class ListingLoader implements CommandLineRunner {
 
         log.info("Listing loader begin");
 
-        listingRepository.deleteAll();
-
-        log.info("deleted records from listing table");
-
         ResponseEntity<List<ListingDTO>> listingResponse =
                 restTemplate.exchange(config.getListingApiUrl(),
                         HttpMethod.GET, null, new ParameterizedTypeReference<List<ListingDTO>>() {
                         });
         List<ListingDTO> listings = listingResponse.getBody();
 
-        log.info("saving listings started start");
+        log.info("saving listings started");
         mapperService.handleSave(listings);
         log.info("saving listings done");
 

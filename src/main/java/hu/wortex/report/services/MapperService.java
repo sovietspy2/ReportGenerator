@@ -3,14 +3,12 @@ package hu.wortex.report.services;
 import hu.wortex.report.entities.*;
 import hu.wortex.report.helpers.CsvGenerator;
 import hu.wortex.report.helpers.ValidationUtility;
-import hu.wortex.report.repositories.ListingRepository;
 import hu.wortex.report.repositories.ListingStatusRepository;
 import hu.wortex.report.repositories.LocationRepository;
 import hu.wortex.report.repositories.MarketplaceRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
@@ -44,6 +42,7 @@ public class MapperService {
 
     /**
      * saves valid Listings to the database
+     *
      * @param dtos
      */
     @Transactional
@@ -57,38 +56,38 @@ public class MapperService {
         List<Integer> listingStatusIds = getListingStatusIds();
         log.info("listing status id list for validation received");
 
-        Map<Integer,String> marketplacesMap = createIdNameMarketplaceMap();
+        Map<Integer, String> marketplacesMap = createIdNameMarketplaceMap();
 
-        ValidationUtility validationUtility = new ValidationUtility(locationIds, marketplaceIds, listingStatusIds,marketplacesMap);
+        ValidationUtility validationUtility = new ValidationUtility(locationIds, marketplaceIds, listingStatusIds, marketplacesMap);
 
         dtos.stream()
                 .filter(validationUtility::isValidListing)
-                .forEach(dto-> {
-                    Marketplace marketplace = entityManager.getReference(Marketplace.class, dto.getMarketPlaceId());
-                    Location location = entityManager.getReference(Location.class, dto.getLocationId());
-                    ListingStatus listingStatus = entityManager.getReference(ListingStatus.class, dto.getListingStatusId());
+                .forEach(dto -> {
+                            Marketplace marketplace = entityManager.getReference(Marketplace.class, dto.getMarketPlaceId());
+                            Location location = entityManager.getReference(Location.class, dto.getLocationId());
+                            ListingStatus listingStatus = entityManager.getReference(ListingStatus.class, dto.getListingStatusId());
 
-                    Listing listing = new Listing();
-                    listing.setId(dto.getId());
-                    listing.setCurrency(dto.getCurrency());
-                    listing.setDescription(dto.getDescription());
+                            Listing listing = new Listing();
+                            listing.setId(dto.getId());
+                            listing.setCurrency(dto.getCurrency());
+                            listing.setDescription(dto.getDescription());
 
-                    listing.setListingPrice(dto.getListingPrice());
-                    listing.setOwnerEmailAddress(dto.getOwnerEmailAddress());
-                    listing.setQuantity(dto.getQuantity());
-                    listing.setTitle(dto.getTitle());
-                    listing.setUploadTime(dto.getUploadTime());
+                            listing.setListingPrice(dto.getListingPrice());
+                            listing.setOwnerEmailAddress(dto.getOwnerEmailAddress());
+                            listing.setQuantity(dto.getQuantity());
+                            listing.setTitle(dto.getTitle());
+                            listing.setUploadTime(dto.getUploadTime());
 
-                    listing.setListingStatus(listingStatus);
+                            listing.setListingStatus(listingStatus);
 
-                    listing.setMarketPlace(marketplace);
+                            listing.setMarketPlace(marketplace);
 
-                    listing.setLocation(location);
-                    log.debug(listing.getId());
-                    entityManager.persist(listing);
-                }
-        );
-        log.info("saving service done");
+                            listing.setLocation(location);
+                            log.debug(listing.getId());
+                            entityManager.persist(listing);
+                        }
+                );
+        log.info("Listins saved to database");
 
         log.info("generating CSV file");
         csvGenerator.generateCsv(validationUtility.getCsvLines());
@@ -114,9 +113,9 @@ public class MapperService {
                 .collect(Collectors.toList());
     }
 
-    private Map<Integer,String> createIdNameMarketplaceMap() {
-        return StreamSupport.stream(marketplaceRepository.findAll().spliterator(),true)
-               .collect(Collectors.toMap(Marketplace::getId,Marketplace::getMarketplaceName ));
+    private Map<Integer, String> createIdNameMarketplaceMap() {
+        return StreamSupport.stream(marketplaceRepository.findAll().spliterator(), true)
+                .collect(Collectors.toMap(Marketplace::getId, Marketplace::getMarketplaceName));
     }
 
 
