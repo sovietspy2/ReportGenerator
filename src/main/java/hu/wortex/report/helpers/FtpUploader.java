@@ -52,7 +52,7 @@ public class FtpUploader {
             }
 
         } catch (IOException ex) {
-            ex.printStackTrace();
+            log.error(ex.getMessage(), ex);
         } finally {
             try {
                 if (client.isConnected()) {
@@ -60,7 +60,7 @@ public class FtpUploader {
                     client.disconnect();
                 }
             } catch (IOException ex) {
-                ex.printStackTrace();
+                log.error(ex.getMessage(), ex);
             }
         }
     }

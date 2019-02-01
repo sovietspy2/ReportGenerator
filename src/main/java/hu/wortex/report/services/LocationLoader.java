@@ -34,7 +34,7 @@ public class LocationLoader implements CommandLineRunner {
     private static final Logger log = LoggerFactory.getLogger(LocationLoader.class);
 
     @Override
-    public void run(String... args) throws Exception {
+    public void run(String... args) {
 
         locationRepository.deleteAll();
 

@@ -40,7 +40,7 @@ public class CsvGenerator {
                 try {
                     printer.printRecord(row);
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    log.error("failed to write csv", e.getMessage(), e);
                 }
             });
         }

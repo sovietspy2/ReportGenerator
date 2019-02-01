@@ -39,7 +39,7 @@ public class ReportHandler implements CommandLineRunner  {
             mapper.writeValue(new File(env.getProperty("tmp.file.path")), mainReportDTO );
             log.info(" temp report.json saved to drive");
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("Failed to map Object to JSON", e.getMessage(), e);
         }
 
         FtpUploader ftpUploader = new FtpUploader(

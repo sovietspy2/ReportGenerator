@@ -64,9 +64,9 @@ public class MapperService {
 
         ValidationUtility validationUtility = new ValidationUtility(locationIds, marketplaceIds, listingStatusIds,marketplacesMap);
 
-        listingRepository.saveAll(dtos.stream()
+        dtos.stream()
                 .filter(validationUtility::isValidListing)
-                .map(dto-> {
+                .forEach(dto-> {
                     Marketplace marketplace = entityManager.getReference(Marketplace.class, dto.getMarketPlaceId());
                     Location location = entityManager.getReference(Location.class, dto.getLocationId());
                     ListingStatus listingStatus = entityManager.getReference(ListingStatus.class, dto.getListingStatusId());
@@ -89,9 +89,8 @@ public class MapperService {
                     listing.setLocation(location);
                     log.debug(listing.getId());
                     entityManager.persist(listing);
-                    return listing;
                 }
-        ).collect(Collectors.toList()));
+        );
         log.info("saving service done");
 
         log.info("generating CSV file");
