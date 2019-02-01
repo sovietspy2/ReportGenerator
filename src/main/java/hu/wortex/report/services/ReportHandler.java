@@ -52,5 +52,6 @@ public class ReportHandler implements CommandLineRunner  {
 
         ftpUploader.upload();
         log.info("report.json uploaded to FTP server");
+        System.exit(0);
     }
 }
