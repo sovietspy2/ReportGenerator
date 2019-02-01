@@ -9,7 +9,7 @@
 - Spring Boot 2
 
 ### How the app works:
-- Downloading data
+- Getting data from API
 - Parsing JSON response to Entities
 - Validating entities, valids are going to be saved and invalids are listed in error csv
 - Generating report POJO map to JSON save to disk
