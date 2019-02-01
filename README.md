@@ -5,7 +5,7 @@
 config.properties:
 ```
 spring.jpa.hibernate.ddl-auto=none
-spring.datasource.url=jdbc:mysql://wortex.stream:3306/book?useSSL=false
+spring.datasource.url=jdbc:mysql://localhost:3306/book?useSSL=false
 spring.datasource.username=root
 spring.datasource.password=
 listing.status.url=https://my.api.mockaroo.com/listingStatus?key=63304c70
