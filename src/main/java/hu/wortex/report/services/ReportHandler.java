@@ -1,6 +1,7 @@
 package hu.wortex.report.services;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import hu.wortex.report.config.Config;
 import hu.wortex.report.entities.MainReportDTO;
 import hu.wortex.report.helpers.FtpUploader;
 import org.slf4j.Logger;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
 import org.springframework.core.env.Environment;
+import org.springframework.jca.cci.connection.ConnectionFactoryUtils;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
@@ -22,7 +24,10 @@ public class ReportHandler implements CommandLineRunner  {
     private ReportCreator reportCreator;
 
     @Autowired
-    private Environment env;
+    private Config config;
+
+    @Autowired
+    private FtpUploader ftpUploader;
 
     private static final Logger log = LoggerFactory.getLogger(ReportHandler.class);
 
@@ -36,19 +41,11 @@ public class ReportHandler implements CommandLineRunner  {
         ObjectMapper mapper = new ObjectMapper();
 
         try {
-            mapper.writeValue(new File(env.getProperty("tmp.file.path")), mainReportDTO );
+            mapper.writeValue(new File(config.getTmpFilePath()), mainReportDTO );
             log.info(" temp report.json saved to drive");
         } catch (IOException e) {
             log.error("Failed to map Object to JSON", e.getMessage(), e);
         }
-
-        FtpUploader ftpUploader = new FtpUploader(
-                env.getProperty("ftp.username"),
-                env.getProperty("ftp.password"),
-                env.getProperty("ftp.host"),
-                env.getProperty("tmp.file.path"),
-                env.getProperty("ftp.port")
-        );
 
         ftpUploader.upload();
         log.info("report.json uploaded to FTP server");

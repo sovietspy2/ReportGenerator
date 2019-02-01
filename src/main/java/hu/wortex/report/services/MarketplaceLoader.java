@@ -1,5 +1,6 @@
 package hu.wortex.report.services;
 
+import hu.wortex.report.config.Config;
 import hu.wortex.report.entities.Marketplace;
 import hu.wortex.report.repositories.MarketplaceRepository;
 import org.slf4j.Logger;
@@ -27,7 +28,7 @@ public class MarketplaceLoader implements CommandLineRunner {
     private RestTemplate restTemplate;
 
     @Autowired
-    private Environment env;
+    private Config config;
 
     private static final Logger log = LoggerFactory.getLogger(MarketplaceLoader.class);
 
@@ -40,7 +41,7 @@ public class MarketplaceLoader implements CommandLineRunner {
 
 
         ResponseEntity<List<Marketplace>> response  =
-                restTemplate.exchange(env.getProperty("marketplace.url"),
+                restTemplate.exchange(config.getMarketplaceApiUrl(),
                         HttpMethod.GET, null, new ParameterizedTypeReference<List<Marketplace>>() {
                         });
         List<Marketplace> marketplaces = response.getBody();

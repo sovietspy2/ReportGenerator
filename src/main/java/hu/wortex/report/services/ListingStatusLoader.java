@@ -1,5 +1,6 @@
 package hu.wortex.report.services;
 
+import hu.wortex.report.config.Config;
 import hu.wortex.report.entities.Listing;
 import hu.wortex.report.entities.ListingStatus;
 import hu.wortex.report.repositories.ListingStatusRepository;
@@ -22,6 +23,8 @@ import java.util.List;
 @Order(1)
 public class ListingStatusLoader implements CommandLineRunner {
 
+    @Autowired
+    private Config config;
 
     @Autowired
     private ListingStatusRepository listingStatusRepository;
@@ -31,18 +34,15 @@ public class ListingStatusLoader implements CommandLineRunner {
 
     private static final Logger log = LoggerFactory.getLogger(ListingStatusLoader.class);
 
-    @Autowired
-    private Environment env;
-
     @Override
-    public void run(String... args) throws Exception {
+    public void run(String... args) {
 
         listingStatusRepository.deleteAll();
 
         log.info("deleted all records from LISTING_STATUS table");
 
         ResponseEntity<List<ListingStatus>> response =
-                    restTemplate.exchange(env.getProperty("listing.status.url"),
+                    restTemplate.exchange(config.getListingStatusApiUrl(),
                         HttpMethod.GET, null, new ParameterizedTypeReference<List<ListingStatus>>() {
                         });
         List<ListingStatus> status = response.getBody();

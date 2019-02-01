@@ -29,9 +29,6 @@ public class MapperService {
     private EntityManager entityManager;
 
     @Autowired
-    private ListingRepository listingRepository;
-
-    @Autowired
     private ListingStatusRepository listingStatusRepository;
 
     @Autowired
@@ -41,7 +38,7 @@ public class MapperService {
     private MarketplaceRepository marketplaceRepository;
 
     @Autowired
-    private Environment env;
+    private CsvGenerator csvGenerator;
 
     private static final Logger log = LoggerFactory.getLogger(MapperService.class);
 
@@ -94,7 +91,6 @@ public class MapperService {
         log.info("saving service done");
 
         log.info("generating CSV file");
-        CsvGenerator csvGenerator = new CsvGenerator(env.getProperty("csv.file.location"));
         csvGenerator.generateCsv(validationUtility.getCsvLines());
         log.info("CSV file generating is done");
 

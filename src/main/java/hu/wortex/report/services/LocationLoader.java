@@ -1,5 +1,6 @@
 package hu.wortex.report.services;
 
+import hu.wortex.report.config.Config;
 import hu.wortex.report.entities.ListingStatus;
 import hu.wortex.report.entities.Location;
 import hu.wortex.report.repositories.ListingRepository;
@@ -29,7 +30,7 @@ public class LocationLoader implements CommandLineRunner {
     private RestTemplate restTemplate;
 
     @Autowired
-    private Environment env;
+    private Config config;
 
     private static final Logger log = LoggerFactory.getLogger(LocationLoader.class);
 
@@ -41,7 +42,7 @@ public class LocationLoader implements CommandLineRunner {
         log.info("deleted all records from LOCATION table");
 
         ResponseEntity<List<Location>> response  =
-                restTemplate.exchange(env.getProperty("location.url"),
+                restTemplate.exchange(config.getLocationApiUrl(),
                         HttpMethod.GET, null, new ParameterizedTypeReference<List<Location>>() {
                         });
         List<Location> location = response.getBody();

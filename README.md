@@ -1,23 +1,25 @@
 # ReportGenerator
 
+the application uses external properties.
 
+vm options: `-Dspring.config.location="/config/config.properties" -Dlogging.config="/config/log4j2.xml"`
 
 config.properties:
 ```
 spring.jpa.hibernate.ddl-auto=none
 spring.datasource.url=jdbc:mysql://localhost:3306/book?useSSL=false
-spring.datasource.username=user
-spring.datasource.password=passs
-listing.status.url=https://my.api.mockaroo.com/listingStatus?key=63304c70
-listing.url=https://my.api.mockaroo.com/listing?key=63304c70
-location.url=https://my.api.mockaroo.com/location?key=63304c70
-marketplace.url=https://my.api.mockaroo.com/marketplace?key=63304c70
-csv.file.location=/csv/
-tmp.file.path=/csv/report.json
-ftp.username=ftpuser
-ftp.password=ftpass
-ftp.host=ftp.server.com
-ftp.port=21
+spring.datasource.username=
+spring.datasource.password=
+listingStatusApiUrl=https://my.api.mockaroo.com/listingStatus?key=63304c70
+listingApiUrl=https://my.api.mockaroo.com/listing?key=63304c70
+locationApiUrl=https://my.api.mockaroo.com/location?key=63304c70
+marketplaceApiUrl=https://my.api.mockaroo.com/marketplace?key=63304c70
+csvFilePath=/csv/
+tmpFilePath=/csv/report.json
+ftpUsername=
+ftpPassword=
+ftpHost=
+ftpPort=
 ```
 
 log4j2.xml
@@ -58,4 +60,45 @@ log4j2.xml
 </Configuration>
 ```
 
-vm options: `-Dapp.config="/config/config.properties" -Dlogging.config="/config/log4j2.xml"`
+SQL scripts:
+```$xslt
+create table listing_status (
+	  id integer not null PRIMARY KEY ,
+	  status_name varchar(255) NOT NULL
+ 	);
+
+ 	create table location (
+ 	  id varchar(255) not null PRIMARY KEY,
+ 	  manager_name varchar(255),
+ 	  phone varchar(50),
+ 	  address_primary varchar(100),
+ 	  address_secondary varchar(100),
+ 	  country varchar(50),
+ 	  town varchar(50),
+ 	  postal_code varchar(20)
+	);
+
+	create table marketplace (
+	  id integer not null PRIMARY KEY,
+	  marketplace_name varchar(255) not null
+	);
+
+	create table listing (
+	id varchar(36) not null PRIMARY KEY,
+	currency varchar(3) not null,
+	description varchar(255) not null,
+	listing_price DOUBLE,
+	listing_status Integer NOT NULL,
+	location_id varchar(255) not null,
+	marketplace integer not null,
+	title varchar(255) not null,
+	owner_email_address varchar(255),
+	quantity integer not null,
+	upload_time datetime,
+	FOREIGN KEY (listing_status) REFERENCES listing_status(id),
+  FOREIGN KEY (location_id) REFERENCES location(id),
+  FOREIGN KEY (marketplace) REFERENCES marketplace(id)
+  );
+```
+
+

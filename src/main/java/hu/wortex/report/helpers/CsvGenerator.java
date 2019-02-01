@@ -1,9 +1,12 @@
 package hu.wortex.report.helpers;
 
+import hu.wortex.report.config.Config;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -11,21 +14,20 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+@Component
 public class CsvGenerator {
 
-    private String csvSaveLocation;
+    @Autowired
+    private Config config;
 
     private static final String FILE_NAME = "importLog.csv";
-
-    public CsvGenerator(String csvSaveLocation) {
-        this.csvSaveLocation = csvSaveLocation;
-    }
-
     private static final String[] HEADERS = {"ListingId","MarketplaceName","InvalidField"};
 
     private static final Logger log = LoggerFactory.getLogger(CsvGenerator.class);
 
     public String generateCsv(List<List<String>> data) throws IOException {
+
+        final String csvSaveLocation = config.getCsvFilePath();
 
         SimpleDateFormat fileFormatter = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
 

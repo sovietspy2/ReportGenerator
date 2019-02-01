@@ -22,12 +22,15 @@ public class ReportCreator {
     @Autowired
     private MarketplaceRepository marketplaceRepository;
 
+    private static final String EBAY = "EBAY";
+    private static final String AMAZON = "AMAZON";
+
     public MainReportDTO getReport() {
 
         MainReportDTO mainReportDTO = new MainReportDTO();
 
-        Marketplace amazon = marketplaceRepository.findByMarketplaceName("AMAZON");
-        Marketplace ebay = marketplaceRepository.findByMarketplaceName("EBAY");
+        Marketplace amazon = marketplaceRepository.findByMarketplaceName(EBAY);
+        Marketplace ebay = marketplaceRepository.findByMarketplaceName(AMAZON);
 
         mainReportDTO.setTotalEbayListingCount(listingRepository.countAllByMarketPlace(ebay));
         mainReportDTO.setTotalAmazonListingCount(listingRepository.countAllByMarketPlace(amazon));

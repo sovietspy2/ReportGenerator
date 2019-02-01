@@ -8,7 +8,6 @@ import org.springframework.web.client.RestTemplate;
 
 
 @SpringBootApplication
-@PropertySource("file:${app.config}")
 public class ReportApplication {
 
     public static void main(String[] args) {
