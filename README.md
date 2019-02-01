@@ -14,8 +14,8 @@ location.url=https://my.api.mockaroo.com/location?key=63304c70
 marketplace.url=https://my.api.mockaroo.com/marketplace?key=63304c70
 csv.file.location=/csv/
 tmp.file.path=/csv/report.json
-ftp.username=qkac-online
-ftp.password=kutya123
+ftp.username=
+ftp.password=
 ftp.host=ftp.atw.hu
 ftp.port=21
 ```
